@@ -1,27 +1,23 @@
 package ec.com.reactive.music.domain.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.UUID;
 
+@Data
 @NoArgsConstructor
-@Getter
-@Setter
 @AllArgsConstructor
-@Document
+@Setter
+@Getter
+@Document(collection = "Album")
 public class Album {
     @Id
-    private final String idAlbum = UUID.randomUUID().toString().substring(0, 10);
+    private String idAlbum;
     private String name;
     private String artist;
-    private Date releaseDate;
-    private ArrayList<Song> songs;
+    private Integer yearRelease;
+    private ArrayList<Song> songs=new ArrayList<>();
 
 }
