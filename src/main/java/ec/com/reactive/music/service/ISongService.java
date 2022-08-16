@@ -1,10 +1,22 @@
 package ec.com.reactive.music.service;
 
+import ec.com.reactive.music.domain.dto.AlbumDTO;
 import ec.com.reactive.music.domain.dto.SongDTO;
+import ec.com.reactive.music.domain.entities.Song;
+import org.springframework.http.ResponseEntity;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface ISongService  {
-    Mono<SongDTO> saveSong (SongDTO s);
-    Mono<Void> deleteSong (String idSong);
-    Mono<SongDTO> updateSong(String idSong, SongDTO s);
+    Mono<ResponseEntity<Flux<SongDTO>>> findAllSongs();
+    Mono<ResponseEntity<SongDTO>> findSongById(String id);
+    Mono<ResponseEntity<SongDTO>> saveSong (SongDTO s);
+    Mono<ResponseEntity<SongDTO>> updateSong(String idSong, SongDTO sDto);
+    Mono<ResponseEntity<String>> deleteSong (String idSong);
+
+    SongDTO entityToDTO(Song s);
+    Song dtoToEntity(SongDTO sDto);
+
+
+
 }
