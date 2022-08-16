@@ -1,9 +1,11 @@
 package ec.com.reactive.music.service.impl;
 
 import ec.com.reactive.music.domain.dto.AlbumDTO;
+import ec.com.reactive.music.domain.dto.SongDTO;
 import ec.com.reactive.music.domain.entities.Album;
 import ec.com.reactive.music.repository.IAlbumRepository;
 import ec.com.reactive.music.service.IAlbumService;
+import ec.com.reactive.music.service.ISongService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,11 +14,13 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-
 @Service
 public class AlbumServiceImpl implements IAlbumService {
     @Autowired
     private IAlbumRepository iAlbumRepository;
+
+    @Autowired
+    private ISongService songService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -57,7 +61,7 @@ public class AlbumServiceImpl implements IAlbumService {
                 .findById(id)
                 .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
                 .flatMap(album -> { //Why flatMap?
-                    aDto.setIdAlbum(id);
+                    aDto.setIdAlbum(album.getIdAlbum());
                     return this.saveAlbum(aDto);
                 })
                 .map(albumDTOResponseEntity -> new ResponseEntity<>(albumDTOResponseEntity.getBody(),HttpStatus.ACCEPTED))
@@ -66,8 +70,20 @@ public class AlbumServiceImpl implements IAlbumService {
     }
 
     @Override
+    public Mono<ResponseEntity<AlbumDTO>> addSongToAlbum(String idAlbum, SongDTO sDto) {
+        return this.iAlbumRepository
+                .findById(idAlbum)
+                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
+                .map(this::entityToDTO)
+                .flatMap(albumDTO -> { //Why flat map?
+                    albumDTO.getSongs().add(sDto);
+                    return this.saveAlbum(albumDTO);})
+                .map(albumDTOResponseEntity -> new ResponseEntity<>(albumDTOResponseEntity.getBody(),HttpStatus.ACCEPTED))
+                .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NOT_MODIFIED)));
+    }
+
+    @Override
     public Mono<ResponseEntity<String>> deleteAlbum(String idAlbum) {
-        //Why flatMap?
         return this.iAlbumRepository.findById(idAlbum)
                 .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
                 .flatMap(album -> this.iAlbumRepository.deleteById(idAlbum))
@@ -76,13 +92,9 @@ public class AlbumServiceImpl implements IAlbumService {
     }
 
     @Override
-    public AlbumDTO entityToDTO (Album a){
-        return this.modelMapper.map(a, AlbumDTO.class);
-    }
+    public AlbumDTO entityToDTO (Album a){ return this.modelMapper.map(a, AlbumDTO.class); }
 
     @Override
-    public Album dtoToEntity(AlbumDTO aDto){
-        return this.modelMapper.map(aDto,Album.class);
-    }
+    public Album dtoToEntity(AlbumDTO aDto){ return this.modelMapper.map(aDto,Album.class); }
 
 }

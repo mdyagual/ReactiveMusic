@@ -1,9 +1,11 @@
 package ec.com.reactive.music.web;
 
 import ec.com.reactive.music.domain.dto.AlbumDTO;
-import ec.com.reactive.music.domain.entities.Album;
+import ec.com.reactive.music.domain.dto.SongDTO;
 import ec.com.reactive.music.service.IAlbumService;
+import ec.com.reactive.music.service.ISongService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -13,6 +15,9 @@ import reactor.core.publisher.Mono;
 public class AlbumResource {
     @Autowired
     private IAlbumService albumService;
+
+    @Autowired
+    private ISongService songService;
 
     //GET
     @GetMapping("/findAllAlbums")
@@ -36,6 +41,15 @@ public class AlbumResource {
     @PutMapping("/updateAlbum/{id}")
     private Mono<ResponseEntity<AlbumDTO>> putAlbum(@PathVariable String id , @RequestBody AlbumDTO aDto){
         return albumService.updateAlbum(id,aDto);
+    }
+
+    //PUT
+    @PutMapping("/addSong/{idAlbum}/{idSong}")
+    private Mono<ResponseEntity<AlbumDTO>> addSongToAlbum(@PathVariable String idAlbum, @PathVariable String idSong){
+        return songService.findSongById(idSong)
+                .flatMap(songDTOResponseEntity -> albumService.addSongToAlbum(idAlbum,songDTOResponseEntity.getBody()));
+
+
     }
 
     //DELETE
