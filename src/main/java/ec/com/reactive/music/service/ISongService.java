@@ -1,6 +1,5 @@
 package ec.com.reactive.music.service;
 
-import ec.com.reactive.music.domain.dto.AlbumDTO;
 import ec.com.reactive.music.domain.dto.SongDTO;
 import ec.com.reactive.music.domain.entities.Song;
 import org.springframework.http.ResponseEntity;
