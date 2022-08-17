@@ -1,6 +1,5 @@
 package ec.com.reactive.music.web;
 
-import ec.com.reactive.music.domain.dto.AlbumDTO;
 import ec.com.reactive.music.domain.dto.SongDTO;
 import ec.com.reactive.music.service.IAlbumService;
 import ec.com.reactive.music.service.ISongService;

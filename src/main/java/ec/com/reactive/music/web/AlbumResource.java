@@ -42,7 +42,7 @@ public class AlbumResource {
     }
 
     //PUT
-    @PutMapping("/addSong/{idAlbum}/{idSong}")
+    @PutMapping("/albumSong/{idAlbum}/{idSong}")
     private Mono<ResponseEntity<AlbumDTO>> addSongToAlbum(@PathVariable String idAlbum, @PathVariable String idSong){
         return songService.findSongById(idSong)
                 .flatMap(songDTOResponseEntity -> albumService.addSongToAlbum(idAlbum,songDTOResponseEntity.getBody()));
