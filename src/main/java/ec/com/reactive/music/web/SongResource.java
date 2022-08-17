@@ -21,7 +21,6 @@ public class SongResource {
     //GET
     @GetMapping("/findAllSongs")
     private Mono<ResponseEntity<Flux<SongDTO>>> getSongs(){
-
         return songService.findAllSongs();
     }
 

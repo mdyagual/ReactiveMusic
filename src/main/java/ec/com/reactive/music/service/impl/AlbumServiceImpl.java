@@ -6,6 +6,7 @@ import ec.com.reactive.music.domain.entities.Album;
 import ec.com.reactive.music.repository.IAlbumRepository;
 import ec.com.reactive.music.service.IAlbumService;
 import ec.com.reactive.music.service.ISongService;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,16 +15,17 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@AllArgsConstructor
 @Service
 public class AlbumServiceImpl implements IAlbumService {
-    @Autowired
+
     private IAlbumRepository iAlbumRepository;
 
-    @Autowired
     private ISongService songService;
 
-    @Autowired
     private ModelMapper modelMapper;
+
+
 
     @Override
     public Mono<ResponseEntity<Flux<AlbumDTO>>>findAllAlbums() {
