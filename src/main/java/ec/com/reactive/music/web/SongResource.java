@@ -46,7 +46,7 @@ public class SongResource {
 
     //DELETE
     @DeleteMapping("/deleteSong/{id}")
-    private Mono<ResponseEntity<String>> deleteAlbum(@PathVariable String id){
+    private Mono<ResponseEntity<String>> deleteSong(@PathVariable String id){
         return songService.deleteSong(id);
     }
 

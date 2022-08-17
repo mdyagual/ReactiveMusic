@@ -1,11 +1,8 @@
 package ec.com.reactive.music.domain.dto;
 
-import ec.com.reactive.music.domain.entities.Song;
 import lombok.*;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.UUID;
 
 @Data

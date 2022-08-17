@@ -1,11 +1,9 @@
 package ec.com.reactive.music.web;
 
 import ec.com.reactive.music.domain.dto.AlbumDTO;
-import ec.com.reactive.music.domain.dto.SongDTO;
 import ec.com.reactive.music.service.IAlbumService;
 import ec.com.reactive.music.service.ISongService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
