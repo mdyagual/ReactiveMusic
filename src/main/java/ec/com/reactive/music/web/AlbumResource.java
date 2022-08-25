@@ -14,9 +14,6 @@ public class AlbumResource {
     @Autowired
     private IAlbumService albumService;
 
-    @Autowired
-    private ISongService songService;
-
     //GET
     @GetMapping("/findAllAlbums")
     private Mono<ResponseEntity<Flux<AlbumDTO>>> getAlbums(){
@@ -42,18 +39,18 @@ public class AlbumResource {
     }
 
     //PUT
-    @PutMapping("/albumSong/{idAlbum}/{idSong}")
+    /*@PutMapping("/albumSong/{idAlbum}/{idSong}")
     private Mono<ResponseEntity<AlbumDTO>> addSongToAlbum(@PathVariable String idAlbum, @PathVariable String idSong){
         return songService.findSongById(idSong)
                 .flatMap(songDTOResponseEntity -> albumService.addSongToAlbum(idAlbum,songDTOResponseEntity.getBody()));
 
 
-    }
+    }*/
 
     //DELETE
-    @DeleteMapping("/deleteAlbum/{id}")
+    /*@DeleteMapping("/deleteAlbum/{id}")
     private Mono<ResponseEntity<String>> deleteAlbum(@PathVariable String id){
         return albumService.deleteAlbum(id);
-    }
+    }*/
 
 }

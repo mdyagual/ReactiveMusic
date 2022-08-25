@@ -1,5 +1,6 @@
 package ec.com.reactive.music.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -10,11 +11,12 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
+@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm:ss")
 public class AlbumDTO {
     private String idAlbum = UUID.randomUUID().toString().substring(0, 10);
     private String name;
     private String artist;
     private Integer yearRelease;
-    private ArrayList<SongDTO> songs=new ArrayList<>();
+    //private ArrayList<SongDTO> songs=new ArrayList<>();
 
 }

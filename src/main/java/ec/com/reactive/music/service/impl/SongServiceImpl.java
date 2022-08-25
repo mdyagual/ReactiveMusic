@@ -1,9 +1,11 @@
 package ec.com.reactive.music.service.impl;
 
+import ec.com.reactive.music.domain.dto.AlbumDTO;
 import ec.com.reactive.music.domain.dto.SongDTO;
 import ec.com.reactive.music.domain.entities.Song;
 import ec.com.reactive.music.repository.ISongRepository;
 import ec.com.reactive.music.service.ISongService;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,13 +14,14 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@AllArgsConstructor
 @Service
 public class SongServiceImpl implements ISongService {
     @Autowired
-    private ISongRepository iSongRepository;
+    private final ISongRepository iSongRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     @Override
     public Mono<ResponseEntity<Flux<SongDTO>>> findAllSongs() {
@@ -41,13 +44,13 @@ public class SongServiceImpl implements ISongService {
 
     @Override
     public Mono<ResponseEntity<SongDTO>> saveSong(SongDTO s) {
-        System.out.println(s);
-        return this.iSongRepository
-                .save(dtoToEntity(s))
-                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.EXPECTATION_FAILED.toString())))
-                .map(this::entityToDTO)
-                .map(songDTO -> new ResponseEntity<>(songDTO, HttpStatus.CREATED))
-                .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED)));
+        return s.getAlbumId().equals("Does not exist") ? Mono.just(new ResponseEntity<>(s, HttpStatus.NOT_ACCEPTABLE))
+                : this.iSongRepository
+                        .save(dtoToEntity(s))
+                        .switchIfEmpty(Mono.error(new Throwable(HttpStatus.EXPECTATION_FAILED.toString())))
+                        .map(this::entityToDTO)
+                        .map(songDTO -> new ResponseEntity<>(songDTO, HttpStatus.CREATED))
+                        .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED)));
     }
 
     @Override

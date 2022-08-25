@@ -5,6 +5,7 @@ import ec.com.reactive.music.domain.dto.SongDTO;
 import ec.com.reactive.music.domain.entities.Playlist;
 import ec.com.reactive.music.repository.IPlaylistRepository;
 import ec.com.reactive.music.service.IPlaylistService;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,13 +14,14 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@AllArgsConstructor
 @Service
 public class PlaylistServiceImpl implements IPlaylistService {
     @Autowired
-    private IPlaylistRepository iPlaylistRepository;
+    private final IPlaylistRepository iPlaylistRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     @Override
     public Mono<ResponseEntity<Flux<PlaylistDTO>>> findPlaylists() {
@@ -66,7 +68,7 @@ public class PlaylistServiceImpl implements IPlaylistService {
     }
 
     @Override
-    public Mono<ResponseEntity<PlaylistDTO>> addSongToPlaylist(String idPlaylist, SongDTO sDto) {
+    public Mono<ResponseEntity<PlaylistDTO>> addSongPlaylist(String idPlaylist, SongDTO sDto) {
         return this.iPlaylistRepository
                 .findById(idPlaylist)
                 .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
@@ -76,6 +78,11 @@ public class PlaylistServiceImpl implements IPlaylistService {
                     return this.savePlaylist(playlistDTO);})
                 .map(playlistDTOResponseEntity -> new ResponseEntity<>(playlistDTOResponseEntity.getBody(),HttpStatus.ACCEPTED))
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NOT_MODIFIED)));
+    }
+
+    @Override
+    public Mono<ResponseEntity<PlaylistDTO>> removeSongPlaylist(String idAlbum, SongDTO sDto) {
+        return null;
     }
 
     @Override

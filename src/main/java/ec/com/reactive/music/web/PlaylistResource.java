@@ -45,7 +45,7 @@ public class PlaylistResource {
     @PutMapping("/playlistSong/{idPlaylist}/{idSong}")
     private Mono<ResponseEntity<PlaylistDTO>> addSongToPlaylist(@PathVariable String idPlaylist, @PathVariable String idSong){
         return songService.findSongById(idSong)
-                .flatMap(songDTOResponseEntity -> playlistService.addSongToPlaylist(idPlaylist,songDTOResponseEntity.getBody()));
+                .flatMap(songDTOResponseEntity -> playlistService.addSongPlaylist(idPlaylist,songDTOResponseEntity.getBody()));
 
 
     }

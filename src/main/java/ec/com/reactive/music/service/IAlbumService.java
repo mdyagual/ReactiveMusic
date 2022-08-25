@@ -12,8 +12,8 @@ public interface IAlbumService {
     Mono<ResponseEntity<AlbumDTO>> findAlbumById(String id);
     Mono<ResponseEntity<AlbumDTO>> saveAlbum(AlbumDTO aDto);
     Mono<ResponseEntity<AlbumDTO>> updateAlbum (String id, AlbumDTO aDto);
-    Mono<ResponseEntity<AlbumDTO>> addSongToAlbum(String idAlbum, SongDTO sDto);
-    Mono<ResponseEntity<String>> deleteAlbum (String idAlbum);
+    //Mono<ResponseEntity<AlbumDTO>> addSongToAlbum(String idAlbum, SongDTO sDto);
+    //Mono<ResponseEntity<String>> deleteAlbum (String idAlbum);
 
 
     AlbumDTO entityToDTO(Album a);

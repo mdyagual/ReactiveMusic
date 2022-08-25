@@ -4,6 +4,7 @@ import ec.com.reactive.music.domain.dto.SongDTO;
 import ec.com.reactive.music.service.IAlbumService;
 import ec.com.reactive.music.service.ISongService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -33,7 +34,10 @@ public class SongResource {
     //POST
     @PostMapping("/saveSong")
     private Mono<ResponseEntity<SongDTO>> postSong(@RequestBody SongDTO sDto){
-        return songService.saveSong(sDto);
+        return albumService.findAlbumById(sDto.getAlbumId())
+                .flatMap(albumDTOResponseEntity -> albumDTOResponseEntity.getStatusCode().is4xxClientError() ?
+                                                    songService.saveSong(sDto.toBuilder().albumId("Does not exist").build())
+                                                        : songService.saveSong(sDto));
     }
 
     //PUT

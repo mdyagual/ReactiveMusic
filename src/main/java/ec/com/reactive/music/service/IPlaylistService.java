@@ -12,7 +12,9 @@ public interface IPlaylistService {
     Mono<ResponseEntity<PlaylistDTO>> findPlaylistById(String id);
     Mono<ResponseEntity<PlaylistDTO>> savePlaylist(PlaylistDTO pDto);
     Mono<ResponseEntity<PlaylistDTO>> updatePlaylist(String id, PlaylistDTO pDto);
-    Mono<ResponseEntity<PlaylistDTO>> addSongToPlaylist(String idAlbum, SongDTO sDto);
+    Mono<ResponseEntity<PlaylistDTO>> addSongPlaylist(String idAlbum, SongDTO sDto);
+
+    Mono<ResponseEntity<PlaylistDTO>> removeSongPlaylist(String idAlbum, SongDTO sDto);
     Mono<ResponseEntity<String>> deletePlaylist(String id);
 
     PlaylistDTO entityToDTO(Playlist p);
